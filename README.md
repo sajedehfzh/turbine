@@ -86,13 +86,20 @@ Before running the application, you need to configure the data paths.
     pip install -r requirements.txt
     ```
 
-2.  **Load Data into MongoDB**:
+2.  **Quick Start (pipeline)** _(optional)_:
+    If you prefer a single command that checks your CSV paths, loads the data **and** starts the server in one go, run:
+    ```bash
+    python pipeline.py
+    ```
+    By default the API will be available at `http://127.0.0.1:8000`. Use `--host` / `--port` flags to change the binding.
+
+3.  **Load Data into MongoDB** _(manual approach)_:
     Make sure your MongoDB instance is running, then execute the following script to load the data from the CSV files specified in your `.env` file.
     ```bash
     python load_csv_to_mongo.py
     ```
 
-3.  **Run the FastAPI Server**:
+4.  **Run the FastAPI Server** _(**manual approach**)_:
     Start the API server from the project root.
     ```bash
     uvicorn main:app --reload

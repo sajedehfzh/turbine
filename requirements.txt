@@ -2,3 +2,4 @@ pandas>=1.0.0
 pymongo>=3.11.0
 fastapi[all]
 uvicorn
+python-dotenv
