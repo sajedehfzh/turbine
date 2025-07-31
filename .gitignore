@@ -1,0 +1,13 @@
+# Environment variables
+.env
+
+# Data files
+data/*.csv
+data/transformedData/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+turbine/
