@@ -19,6 +19,7 @@ This project provides a full-stack application to visualize wind turbine data. T
   - [Data Dictionary](#data-dictionary)
   - [Example Visualizations](#example-visualizations)
     - [Rotor vs. Wind: A Deeper Look](#rotor-vs-wind-a-deeper-look)
+    - [Rotor vs. Power: A Deeper Look](#rotor-vs-power-a-deeper-look)
     - [Additional Charts](#additional-charts)
 
 ## Features
@@ -212,16 +213,29 @@ The "Rotor vs. Wind" chart reveals the turbine's control strategy across differe
 
 ---
 
+### Rotor vs. Power: A Deeper Look
+
+![Rotor vs. Power](data/Rotor-power.jpg)
+
+This chart illustrates the relationship between the rotor's rotational speed and the power generated. It highlights three distinct phases of operation:
+
+-   **Below Cut-In (0 rpm → 0 kW)**
+    When the turbine is parked (0 rpm), it produces no power. This is because the wind torque is insufficient to overcome the system's frictional and electrical drag.
+
+-   **Region II – Partial-Load (≈4–12 rpm → rising kW)**
+    Once the rotor starts spinning, power output climbs rapidly with speed. In this phase, the power increases roughly with the cube of the rotor speed (P ∝ ω³), which is consistent with aerodynamic principles. The scatter in this region is caused by wind gusts and fine-tuned control adjustments, where the same rotor speed can correspond to slightly different power outputs depending on the instantaneous wind conditions.
+
+-   **Region III – Rated (≈14–16 rpm → plateau at ~Rated Power)**
+    When the rotor reaches its rated speed (around 15 rpm), the blade-pitch system takes over to maintain a constant speed. At this point, the power output ramps up to the turbine's rated power (approximately 1.9 MW in this case) and then flattens out. The vertical stack of points at 15–16 rpm shows that power can vary from zero to the rated maximum, depending on whether the controller is feathering the blades (reducing power) or allowing full torque (near rated power). This variability is influenced by wind turbulence and different operating modes, such as startup, shutdown, or de-rating in high winds.
+
+---
+
 ### Additional Charts
 
-| Wind vs. Power | Rotor vs. Power |
+| Wind vs. Power | Power over Time |
 | :---: | :---: |
-| ![Power Curve](data/PowerCurve.jpg) | ![Rotor vs. Power](data/Rotor-power.jpg) |
+| ![Power Curve](data/PowerCurve.jpg) | ![Power over Time](data/power-time.jpg) |
 
-| Power over Time | Rotor Speed over Time |
+| Rotor Speed over Time | Wind Speed over Time |
 | :---: | :---: |
-| ![Power over Time](data/power-time.jpg) | ![Rotor Speed over Time](data/Rotor-time.jpg) |
-
-| Wind Speed over Time |
-| :---: |
-| ![Wind Speed over Time](data/wind-time.jpg) |
+| ![Rotor Speed over Time](data/Rotor-time.jpg) | ![Wind Speed over Time](data/wind-time.jpg) |
