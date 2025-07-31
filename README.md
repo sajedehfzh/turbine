@@ -21,6 +21,7 @@ This project provides a full-stack application to visualize wind turbine data. T
     - [Rotor vs. Wind: A Deeper Look](#rotor-vs-wind-a-deeper-look)
     - [Rotor vs. Power: A Deeper Look](#rotor-vs-power-a-deeper-look)
     - [Additional Charts](#additional-charts)
+  - [Summary of Turbine Behavior](#summary-of-turbine-behavior)
 
 ## Features
 
@@ -239,3 +240,9 @@ This chart illustrates the relationship between the rotor's rotational speed and
 | Rotor Speed over Time | Wind Speed over Time |
 | :---: | :---: |
 | ![Rotor Speed over Time](data/Rotor-time.jpg) | ![Wind Speed over Time](data/wind-time.jpg) |
+
+---
+
+## Summary of Turbine Behavior
+
+In summary, the turbine stays idle in light winds, switches to variable-speed MPPT to maximize capture in moderate winds, and then locks rotor speed and pitches blades to cap power in stronger winds—exactly the textbook behavior you’d expect from a modern pitch-controlled, variable-speed turbine.
