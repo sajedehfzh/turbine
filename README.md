@@ -36,7 +36,7 @@ This project provides a full-stack application to visualize wind turbine data. T
 
 ```
 turbine/
-├── data/
+├── sample_output/
 │   ├── reports/             # Sample reports (e.g., non-normal status)
 │   └── ...                  # Other sample data and chart images (ignored by git)
 ├── turbine/               # Python virtual environment
