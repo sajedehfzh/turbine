@@ -220,7 +220,7 @@ The "Rotor vs. Wind" chart reveals the turbine's control strategy across differe
 
 | Power over Time | Rotor Speed over Time |
 | :---: | :---: |
-| ![Power over Time](data/power-time.jpg) | ![Rotor Speed over Time](data/Rotot-time.jpg) |
+| ![Power over Time](data/power-time.jpg) | ![Rotor Speed over Time](data/Rotor-time.jpg) |
 
 | Wind Speed over Time |
 | :---: |
