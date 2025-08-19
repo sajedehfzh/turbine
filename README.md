@@ -10,9 +10,13 @@ This project provides a full-stack application to visualize wind turbine data. T
   - [Project Structure](#project-structure)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
-    - [Configuration](#configuration)
-    - [Backend Setup](#backend-setup)
-    - [Frontend Setup](#frontend-setup)
+      - [Option 1: Docker (Recommended)](#option-1-docker-recommended)
+      - [Option 2: Manual Setup](#option-2-manual-setup)
+    - [Quick Start with Docker (Recommended)](#quick-start-with-docker-recommended)
+    - [Manual Setup](#manual-setup)
+      - [Configuration](#configuration)
+      - [Backend Setup](#backend-setup)
+      - [Frontend Setup](#frontend-setup)
   - [Data Preparation](#data-preparation)
   - [Status Reporting](#status-reporting)
   - [API Usage](#api-usage)
@@ -39,13 +43,17 @@ turbine/
 ├── sample_output/
 │   ├── reports/             # Sample reports (e.g., non-normal status)
 │   └── ...                  # Other sample data and chart images (ignored by git)
-├── turbine/               # Python virtual environment
 ├── web-app/
 │   └── client/            # React frontend application
 ├── .env.example           # Example environment file
 ├── .gitignore             # Git ignore file
+├── docker-compose.yml     # Docker orchestration
+├── Dockerfile.backend     # Backend container definition
 ├── load_csv_to_mongo.py   # Script to load data into MongoDB
 ├── main.py                # FastAPI application entry point
+├── pipeline.py            # Automated pipeline script
+├── Turbine1.csv          # Turbine 1 data (in root directory)
+├── Turbine2.csv          # Turbine 2 data (in root directory)
 └── README.md              # This file
 ```
 
@@ -55,11 +63,49 @@ Follow these instructions to get the application up and running on your local ma
 
 ### Prerequisites
 
+#### Option 1: Docker (Recommended)
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+#### Option 2: Manual Setup
 - [Python 3.8+](https://www.python.org/downloads/)
 - [Node.js and npm](https://nodejs.org/en/download/)
 - [MongoDB](https://www.mongodb.com/try/download/community)
 
-### Configuration
+### Quick Start with Docker (Recommended)
+
+This is the easiest way to get everything running without worrying about dependencies or configuration issues.
+
+1. **Start Everything**:
+   ```bash
+   docker-compose up --build
+   ```
+
+2. **Access the Application**:
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:8000
+   - API Documentation: http://localhost:8000/docs
+   - MongoDB: localhost:27017
+
+3. **Stop Everything**:
+   ```bash
+   docker-compose down
+   ```
+
+**What Docker Does**:
+- Starts MongoDB with proper authentication
+- Loads CSV data automatically from the root directory (Turbine1.csv, Turbine2.csv)
+- Starts the FastAPI backend
+- Starts the React frontend
+- Handles all networking between services
+
+**Note**: The CSV files (Turbine1.csv and Turbine2.csv) should be in the root directory of the project, not in a subdirectory.
+
+### Manual Setup
+
+If you prefer to run things manually or need to debug specific components:
+
+#### Configuration
 
 Before running the application, you need to configure the data paths.
 
@@ -71,14 +117,14 @@ Before running the application, you need to configure the data paths.
     ```
 
 2.  **Edit the `.env` file**:
-    Open the `.env` file and ensure the paths to the CSV files are correct.  they are set to:
+    Open the `.env` file and ensure the paths to the CSV files are correct. They are set to:
     ```
     TURBINE1_CSV_PATH=Turbine1.csv
     TURBINE2_CSV_PATH=Turbine2.csv
     ```
     You can also change the `MONGO_URI` if your MongoDB instance is running on a different address.
 
-### Backend Setup
+#### Backend Setup
 
 1.  **Install Dependencies**:
     Navigate to the project root and install the required Python packages.
@@ -86,27 +132,30 @@ Before running the application, you need to configure the data paths.
     pip install -r requirements.txt
     ```
 
-2.  **Quick Start (pipeline)** _(optional)_:
-    If you prefer a single command that checks your CSV paths, loads the data **and** starts the server in one go, run:
+2.  **Start MongoDB**:
+    ```bash
+    # On Windows (if using MongoDB Community Server)
+    # Start MongoDB service from Windows Services
+   
+    # On macOS/Linux
+    mongod
+    ```
+
+3.  **Quick Start (pipeline)**:
     ```bash
     python pipeline.py
     ```
-    By default the API will be available at `http://127.0.0.1:8000`. Use `--host` / `--port` flags to change the binding.
 
-3.  **Load Data into MongoDB** _(manual approach)_:
-    Make sure your MongoDB instance is running, then execute the following script to load the data from the CSV files specified in your `.env` file.
+4.  **Manual Approach**:
     ```bash
+    # Load data
     python load_csv_to_mongo.py
-    ```
-
-4.  **Run the FastAPI Server** _(**manual approach**)_:
-    Start the API server from the project root.
-    ```bash
+   
+    # Start server
     uvicorn main:app --reload
     ```
-    The API will be available at `http://127.0.0.1:8000`.
 
-### Frontend Setup
+#### Frontend Setup
 
 1.  **Navigate to the Client Directory**:
     ```bash

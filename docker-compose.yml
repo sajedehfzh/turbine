@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: turbine-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - turbine-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: turbine-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGO_URI=mongodb://admin:password@mongodb:27017/
+      - TURBINE1_CSV_PATH=/app/Turbine1.csv
+      - TURBINE2_CSV_PATH=/app/Turbine2.csv
+    volumes:
+      - ./Turbine1.csv:/app/Turbine1.csv:ro
+      - ./Turbine2.csv:/app/Turbine2.csv:ro
+    depends_on:
+      - mongodb
+    networks:
+      - turbine-network
+    command: python pipeline.py --host 0.0.0.0 --port 8000
+
+  frontend:
+    build:
+      context: ./web-app/client
+      dockerfile: Dockerfile.frontend
+    container_name: turbine-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - turbine-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  turbine-network:
+    driver: bridge
